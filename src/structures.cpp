@@ -75,3 +75,23 @@ void Block::encrypt(std::vector<Key> keys) {
 void Block::encrypt(Key k0, Key k1, Key k2) {
     this->encrypt({k0, k1, k2}) ;
 }
+
+void Block::reverseTurn(Key k) {
+    this->addition(k) ;
+    this->permutation(-DEFAULT_SHIFT) ;
+    std::vector<int>subst = buildReverseSubstitution(DEFAULT_SUBST) ;
+    this->substitution(subst) ;
+}
+
+
+void Block::decrypt(std::vector<Key> keys) {
+    assert(keys.size() > 0) ;
+    for(unsigned int i = keys.size()-1 ; i > 0 ; i--) {
+        this->reverseTurn(keys[i]) ;
+    }
+    this->addition(keys[0]) ;
+}
+
+void Block::decrypt(Key k0, Key k1, Key k2) {
+    this->decrypt({k0, k1, k2}) ;
+}

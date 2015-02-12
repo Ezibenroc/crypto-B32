@@ -12,6 +12,9 @@
 #include <cassert>
 #include <string>
 
+#include <random>
+#include <time.h>
+
 #include "../src/structures.h"
 
 #include "structures_tests.h"
@@ -20,7 +23,9 @@ void StructuresTests::testAddition() {
     Key k(7) ;        // 0...00111
     Block b(12) ;   // 0...01100
     b.addition(k) ;         // 0...01011
-    CPPUNIT_ASSERT(b.getBits() == 11) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)11, b.getBits()) ;
+    b.addition(k) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)12, b.getBits()) ;
 }
 
 void StructuresTests::testSimpleSubstitution() {
@@ -79,6 +84,24 @@ void StructuresTests::testPermutation() {
     CPPUNIT_ASSERT_EQUAL((uint32_t)0b00110000010101111100100100001101, b.getBits()) ;
 }
 
+void StructuresTests::testTurn() {
+    Block b(0) ;
+    b.turn(Key(42)) ;
+    b.reverseTurn(Key(42)) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)0, b.getBits()) ;
+    b = Block((5<<29) + (7<<15) + 15) ;
+    b.turn(Key((31<<12)+18)) ;
+    b.reverseTurn(Key((31<<12)+18)) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)((5<<29) + (7<<15) + 15), b.getBits()) ;
+    b.addition(Key(42)) ;
+    b.turn(Key(-1)) ;
+    b.turn(Key(0)) ;
+    b.reverseTurn(Key(0)) ;
+    b.reverseTurn(Key(-1)) ;
+    b.addition(Key(42)) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)((5<<29) + (7<<15) + 15), b.getBits()) ;
+}
+
 void StructuresTests::testEncryption() {
     Block b(0) ;
     b.encrypt(
@@ -89,6 +112,32 @@ void StructuresTests::testEncryption() {
     CPPUNIT_ASSERT_EQUAL((uint32_t)0b00111001011001100110011001100110, b.getBits()) ;
 }
 
+void StructuresTests::testDecryption() {
+    Block b(0b00111001011001100110011001100110) ;
+    b.decrypt(
+        Key(0b10000000000000000000000000000001),
+        Key(0b11111111111111111111111111111111),
+        Key(0b01111111111111111111111111111110)
+    ) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)0, b.getBits()) ;
+}
+
+void StructuresTests::testEncryptDecrypt() {
+    srand(time(NULL)) ;
+    for(int i = 0 ; i < 10000 ; i++) {
+        Block text((uint32_t)rand()) ;
+        Block copy(text) ;
+        Key k1((uint32_t)rand()) ;
+        Key k2((uint32_t)rand()) ;
+        Key k3((uint32_t)rand()) ;
+        text.encrypt(k1, k2, k3) ;
+        if(text.getBits() == copy.getBits()){
+            std::cerr << "WARNING: cipher is the same than plain text." << std::endl ;
+        }
+        text.decrypt(k1, k2, k3) ;
+        CPPUNIT_ASSERT_EQUAL(text.getBits(), copy.getBits()) ;
+    }
+}
 
 CppUnit::Test* StructuresTests::suite() {
     CppUnit::TestSuite *suite = new CppUnit::TestSuite("StructuresTests");
@@ -100,7 +149,13 @@ CppUnit::Test* StructuresTests::suite() {
                 &StructuresTests::testWholeSubstitution));
     suite->addTest(new CppUnit::TestCaller<StructuresTests>("StructuresTests_testPermutation",
                 &StructuresTests::testPermutation));
+    suite->addTest(new CppUnit::TestCaller<StructuresTests>("StructuresTests_testTurn",
+                &StructuresTests::testTurn));
     suite->addTest(new CppUnit::TestCaller<StructuresTests>("StructuresTests_testEncryption",
                 &StructuresTests::testEncryption));
+    suite->addTest(new CppUnit::TestCaller<StructuresTests>("StructuresTests_testDecryption",
+                &StructuresTests::testDecryption));
+    suite->addTest(new CppUnit::TestCaller<StructuresTests>("StructuresTests_testEncryptDecrypt",
+                &StructuresTests::testEncryptDecrypt));
     return suite;
 }
