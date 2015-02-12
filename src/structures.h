@@ -10,6 +10,9 @@
 
 #define DEFAULT_SUBST {7, 3, 6, 1, 13, 9, 10, 11, 2, 12, 0, 4, 5, 15, 8, 14}
 
+// List of plaintexts and ciphertexts:
+// http://perso.ens-lyon.fr/adeline.langlois/webpage/Crypto2014/clairs_chiffres.txt
+
 class Key {
     protected:
         uint32_t bits ;

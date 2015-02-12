@@ -27,19 +27,27 @@ void StructuresTests::testSimpleSubstitution() {
     Block b(7) ; // 0...00111
     std::vector<int> subst = {3, 15, 10, 5, 12, 0, 7, 4, 2, 6, 13, 11, 14, 1, 9, 8} ;
     b.substitution(0, subst) ;
-    CPPUNIT_ASSERT(b.getBits() == 4) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)4, b.getBits()) ;
     b.substitution(0, subst) ;
-    CPPUNIT_ASSERT(b.getBits() == 12) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)12, b.getBits()) ;
     b.substitution(0, subst) ;
-    CPPUNIT_ASSERT(b.getBits() == 14) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)14, b.getBits()) ;
     b = Block(208) ; // 0...011010000
     b.substitution(1, subst) ;
-    CPPUNIT_ASSERT(b.getBits() == 16) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)16, b.getBits()) ;
     b.substitution(1, subst) ;
-    CPPUNIT_ASSERT(b.getBits() == 240) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)240, b.getBits()) ;
     b.substitution(1, subst) ;
-    CPPUNIT_ASSERT(b.getBits() == 128) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)128, b.getBits()) ;
 }
+
+void StructuresTests::testWholeSubstitution() {
+    Block b(0b10011000001010111110010010000110) ;
+    std::vector<int> subst = {3, 15, 10, 9, 12, 7, 0, 4, 2, 6, 13, 14, 11, 1, 5, 8} ;
+    b.substitution(subst) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)0b01100010101011100101110000100000, b.getBits()) ;
+}
+
 
 CppUnit::Test* StructuresTests::suite() {
     CppUnit::TestSuite *suite = new CppUnit::TestSuite("StructuresTests");
@@ -47,5 +55,7 @@ CppUnit::Test* StructuresTests::suite() {
                 &StructuresTests::testAddition));
     suite->addTest(new CppUnit::TestCaller<StructuresTests>("StructuresTests_testSimpleSubstitution",
                 &StructuresTests::testSimpleSubstitution));
+    suite->addTest(new CppUnit::TestCaller<StructuresTests>("StructuresTests_testWholeSubstitution",
+                &StructuresTests::testWholeSubstitution));
     return suite;
 }
