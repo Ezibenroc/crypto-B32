@@ -48,6 +48,26 @@ void StructuresTests::testWholeSubstitution() {
     CPPUNIT_ASSERT_EQUAL((uint32_t)0b01100010101011100101110000100000, b.getBits()) ;
 }
 
+void StructuresTests::testPermutation() {
+    Block b(0b10011000001010111110010010000110) ;
+    b.permutation(3) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)0b11010011000001010111110010010000, b.getBits()) ;
+    b.permutation(2) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)0b00110100110000010101111100100100, b.getBits()) ;
+    b.permutation(2) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)0b00001101001100000101011111001001, b.getBits()) ;
+    b.permutation(6) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)0b00100100001101001100000101011111, b.getBits()) ;
+    b.permutation(24) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)0b00110100110000010101111100100100, b.getBits()) ;
+    b.permutation(31) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)0b01101001100000101011111001001000, b.getBits()) ;
+    b.permutation(0) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)0b01101001100000101011111001001000, b.getBits()) ;
+    b.permutation(32) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)0b01101001100000101011111001001000, b.getBits()) ;
+}
+
 
 CppUnit::Test* StructuresTests::suite() {
     CppUnit::TestSuite *suite = new CppUnit::TestSuite("StructuresTests");
@@ -57,5 +77,7 @@ CppUnit::Test* StructuresTests::suite() {
                 &StructuresTests::testSimpleSubstitution));
     suite->addTest(new CppUnit::TestCaller<StructuresTests>("StructuresTests_testWholeSubstitution",
                 &StructuresTests::testWholeSubstitution));
+    suite->addTest(new CppUnit::TestCaller<StructuresTests>("StructuresTests_testPermutation",
+                &StructuresTests::testPermutation));
     return suite;
 }

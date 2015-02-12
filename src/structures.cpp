@@ -36,3 +36,14 @@ void Block::substitution(std::vector<int> subst) {
         this->substitution(i, subst) ;
     }
 }
+
+void Block::permutation(int shift) {
+    if(shift == 0 || shift == 32)
+        return ;
+    uint32_t mask = (1 << shift) - 1;
+    uint32_t newValue = this->bits & mask ;
+    this->bits = this->bits>>shift ;
+    newValue = newValue<<(32-shift) ;
+    mask = (1 << (32-shift)) - 1;
+    this->bits = (this->bits & mask) | newValue ;
+}
