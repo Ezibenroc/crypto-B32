@@ -37,4 +37,6 @@ class Block: public Key {
         void encrypt(Key k0, Key k1, Key k2) ;
 };
 
+std::vector<int> buildReverseSubstitution(std::vector<int> subst) ;
+
 #endif

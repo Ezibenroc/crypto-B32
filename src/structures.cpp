@@ -37,7 +37,17 @@ void Block::substitution(std::vector<int> subst) {
     }
 }
 
+std::vector<int> buildReverseSubstitution(std::vector<int> subst) {
+    std::vector<int> rev(subst.size()) ;
+    for(unsigned int i = 0 ; i < subst.size() ; i++) {
+        rev[subst[i]] = i ;
+    }
+    return rev ;
+}
+
 void Block::permutation(int shift) {
+    if(shift < 0)
+        shift = 32+shift ;
     if(shift == 0 || shift == 32)
         return ;
     uint32_t mask = (1 << shift) - 1;

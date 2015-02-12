@@ -46,6 +46,9 @@ void StructuresTests::testWholeSubstitution() {
     std::vector<int> subst = {3, 15, 10, 9, 12, 7, 0, 4, 2, 6, 13, 14, 11, 1, 5, 8} ;
     b.substitution(subst) ;
     CPPUNIT_ASSERT_EQUAL((uint32_t)0b01100010101011100101110000100000, b.getBits()) ;
+    std::vector<int> reverseSubst = buildReverseSubstitution(subst) ;
+    b.substitution(reverseSubst) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)0b10011000001010111110010010000110, b.getBits()) ;
 }
 
 void StructuresTests::testPermutation() {
@@ -66,6 +69,14 @@ void StructuresTests::testPermutation() {
     CPPUNIT_ASSERT_EQUAL((uint32_t)0b01101001100000101011111001001000, b.getBits()) ;
     b.permutation(32) ;
     CPPUNIT_ASSERT_EQUAL((uint32_t)0b01101001100000101011111001001000, b.getBits()) ;
+    b.permutation(-5) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)0b00110000010101111100100100001101, b.getBits()) ;
+    b.permutation(3) ;
+    b.permutation(-3) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)0b00110000010101111100100100001101, b.getBits()) ;
+    b.permutation(-12) ;
+    b.permutation(12) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)0b00110000010101111100100100001101, b.getBits()) ;
 }
 
 void StructuresTests::testEncryption() {
