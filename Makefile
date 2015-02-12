@@ -25,7 +25,7 @@ $(PROG): src/main.o src/structures.o
 	$(CC) $(LDFLAGS) -o $@ $< src/structures.o
 
 $(TEST): tests/main.o tests/structures_tests.o src/structures.o
-	$(CC) $(LDFLAGS) $(UNITFLAGS) $? -o $@
+	$(CC) $(LDFLAGS) $(UNITFLAGS) $^ -o $@
 
 clean :
 	rm -f *.o src/*.o tests/*.o $(PROG) $(TEST)
