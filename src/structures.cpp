@@ -8,12 +8,14 @@
 #include <cassert>
 #include "structures.h"
 
-Key::Key(uint32_t b) {
-    this->bits = b ;
+Key::Key(uint32_t b) : bits(b) {
 }
 
 uint32_t Key::getBits(void) {
     return this->bits ;
+}
+
+Block::Block(uint32_t b) : Key(b) {
 }
 
 void Block::addition(Key key) {

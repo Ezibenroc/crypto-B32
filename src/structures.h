@@ -14,12 +14,13 @@ class Key {
     protected:
         uint32_t bits ;
     public:
-        Key(uint32_t b) ;
+        explicit Key(uint32_t b) ;
         uint32_t getBits(void) ;
 };
 
 class Block: public Key {
     public:
+        explicit Block(uint32_t b) ;
         void addition(Key key) ;
         void subsitution(std::vector<int> subst = DEFAULT_SUBST) ;
         void permutation(int shift = 2) ;
