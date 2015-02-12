@@ -1,7 +1,3 @@
-/* Utilitaires de lecture pour les fichiers PBM, PGM, PPM
- * E.B.  12/98
- */
-
 #ifndef _STRUCTURES_H
 #define _STRUCTURES_H
 
@@ -24,9 +20,13 @@ class Key {
 class Block: public Key {
     public:
         explicit Block(uint32_t b) ;
+        // Add the key to the bits (bitwise XOR)
         void addition(Key key) ;
+        // Substitute the block of size 4 of the given position (according to the substitution subst).
         void substitution(int position, std::vector<int> subst = DEFAULT_SUBST) ;
+        // Perform a substitution of the bits, by blocks of size 4 (according to the substitution subst).
         void substitution(std::vector<int> subst = DEFAULT_SUBST) ;
+        // Perform a circular permutation on the right.
         void permutation(int shift = 2) ;
 };
 
