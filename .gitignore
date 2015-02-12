@@ -1,0 +1,9 @@
+*.o
+pbmtopxm
+*.tar.gz
+*.pdf
+*.pgm
+*.ppm
+*.pnm
+*.pbm
+test
