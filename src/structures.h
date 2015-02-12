@@ -22,7 +22,8 @@ class Block: public Key {
     public:
         explicit Block(uint32_t b) ;
         void addition(Key key) ;
-        void subsitution(std::vector<int> subst = DEFAULT_SUBST) ;
+        void substitution(int position, std::vector<int> subst = DEFAULT_SUBST) ;
+        void substitution(std::vector<int> subst = DEFAULT_SUBST) ;
         void permutation(int shift = 2) ;
 };
 

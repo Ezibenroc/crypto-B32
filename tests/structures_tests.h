@@ -4,9 +4,10 @@
 #include <cppunit/TestFixture.h>
 class StructuresTests : public CppUnit::TestFixture {
     private:
-        void testAddition();
+        void testAddition() ;
+        void testSimpleSubstitution() ;
     public:
-        static CppUnit::Test* suite();
-};
+        static CppUnit::Test* suite() ;
+} ;
 
 #endif

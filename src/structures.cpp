@@ -21,3 +21,18 @@ Block::Block(uint32_t b) : Key(b) {
 void Block::addition(Key key) {
     this->bits^=key.getBits() ;
 }
+
+void Block::substitution(int position, std::vector<int> subst) {
+    uint32_t mask = 15<<(position*4) ; // 0...011110...0
+    uint32_t newValue = mask & this->bits ; // i-th block
+    newValue = newValue>>(position*4) ;
+    newValue = subst[newValue] ;
+    newValue = newValue<<(position*4) ;
+    this->bits = (this->bits & (~mask)) | newValue ;
+}
+
+void Block::substitution(std::vector<int> subst) {
+    for(unsigned int i = 0 ; i < 8 ; i++) {
+        this->substitution(i, subst) ;
+    }
+}
