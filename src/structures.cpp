@@ -47,3 +47,21 @@ void Block::permutation(int shift) {
     mask = (1 << (32-shift)) - 1;
     this->bits = (this->bits & mask) | newValue ;
 }
+
+void Block::turn(Key k) {
+    this->substitution() ;
+    this->permutation() ;
+    this->addition(k) ;
+}
+
+void Block::encrypt(std::vector<Key> keys) {
+    assert(keys.size() > 0) ;
+    this->addition(keys[0]) ;
+    for(unsigned int i = 1 ; i < keys.size() ; i++) {
+        this->turn(keys[i]) ;
+    }
+}
+
+void Block::encrypt(Key k0, Key k1, Key k2) {
+    this->encrypt({k0, k1, k2}) ;
+}

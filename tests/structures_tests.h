@@ -8,6 +8,7 @@ class StructuresTests : public CppUnit::TestFixture {
         void testSimpleSubstitution() ;
         void testWholeSubstitution() ;
         void testPermutation() ;
+        void testEncryption() ;
     public:
         static CppUnit::Test* suite() ;
 } ;

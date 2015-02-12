@@ -28,6 +28,13 @@ class Block: public Key {
         void substitution(std::vector<int> subst = DEFAULT_SUBST) ;
         // Perform a circular permutation on the right.
         void permutation(int shift = 2) ;
+        // Perform a substitution and a permutation (with default values).
+        // Then, add the key.
+        void turn(Key k) ;
+        // Perform the encryption with a vector of keys.
+        void encrypt(std::vector<Key> keys) ;
+        // Perform the encryption with 3 keys.
+        void encrypt(Key k0, Key k1, Key k2) ;
 };
 
 #endif
