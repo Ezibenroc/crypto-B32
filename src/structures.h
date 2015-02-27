@@ -21,7 +21,7 @@ class Key {
 
 class Block: public Key {
     public:
-        explicit Block(uint32_t b) ;
+        Block(uint32_t b) ;
         // Add the key to the bits (bitwise XOR)
         void addition(Key key) ;
         // Substitute the block of size 4 of the given position (according to the substitution subst).
