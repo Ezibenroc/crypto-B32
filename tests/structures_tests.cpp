@@ -123,7 +123,7 @@ void StructuresTests::testDecryption() {
 }
 
 void StructuresTests::testEncryptDecrypt() {
-    srand(time(NULL)) ;
+    srand((unsigned int) time(NULL)) ;
     for(int i = 0 ; i < 10000 ; i++) {
         Block text((uint32_t)rand()) ;
         Block copy(text) ;
