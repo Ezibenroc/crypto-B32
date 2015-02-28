@@ -45,10 +45,10 @@ int main(int argc, char *argv[]) {
                 if(op(a&c) == op(b&substitution[c])) {
                     nbKey ++ ;
                 }
-            // std::cout << nbKey ;
+            std::cout << nbKey ;
             double proba = ((double)nbKey)/16 ;
             if(abs(proba - 0.5) > 0.3) {
-                std::cout << nbKey ;
+                // std::cout << nbKey ;
                 goodKeys.push_back(std::pair<int,int>(a, b)) ;
             }
             if(b < nbElt-1)
