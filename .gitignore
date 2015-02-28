@@ -8,3 +8,6 @@ pbmtopxm
 *.pbm
 test
 linearApproximationMatrix
+*.log
+*.aux
+*.out

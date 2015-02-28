@@ -31,5 +31,11 @@ $(APPROX): src/linearApproximationsMatrix.o
 $(TEST): tests/main.o tests/structures_tests.o src/structures.o
 	$(CC) $(CFLAGS) $(UNITFLAGS) $^ -o $@
 
+INDEXES=${report/report.tex}
+OUT=${INDEXES:.tex=.pdf}
+
+%.pdf : %.tex $(SRC)
+		@(cd ${dir $<} && $(MAKE))
+
 clean :
 	rm -f *.o src/*.o tests/*.o $(PROG) $(TEST) $(APPROX)
