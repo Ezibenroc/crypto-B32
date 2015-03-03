@@ -3,6 +3,8 @@
 #include <vector>
 #include <cassert>
 
+#include "structures.h"
+
 #define abs(x) ((x)<0 ? -(x) : (x))
 
 int op(int x) {

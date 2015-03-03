@@ -17,6 +17,8 @@ class Key {
     public:
         Key(uint32_t b) ;
         uint32_t getBits(void) ;
+        // Return the XOR of the bits of the key.
+        int bitsXor(void) ;
 };
 
 class Block: public Key {

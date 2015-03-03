@@ -15,6 +15,18 @@ uint32_t Key::getBits(void) {
     return this->bits ;
 }
 
+int Key::bitsXor(void) {
+    int ret ;
+    int x = this->getBits() ;
+    ret = x&1 ;
+    x >>= 1 ;
+    for(int i = 0 ; i < 31 ; i++) {
+        ret ^= x&1 ;
+        x >>= 1 ;
+    }
+    return ret ;
+}
+
 Block::Block(uint32_t b) : Key(b) {
 }
 
@@ -86,7 +98,7 @@ void Block::reverseTurn(Key k) {
 
 void Block::decrypt(std::vector<Key> keys) {
     assert(keys.size() > 0) ;
-    for(unsigned int i = keys.size()-1 ; i > 0 ; i--) {
+    for(unsigned int i = (unsigned int)(keys.size()-1) ; i > 0 ; i--) {
         this->reverseTurn(keys[i]) ;
     }
     this->addition(keys[0]) ;

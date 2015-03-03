@@ -23,10 +23,10 @@ all : $(PROG)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) $< -o $@
 
 $(PROG): src/main.o src/structures.o
-	$(CC) $(CFLAGS) -o $@ $< src/structures.o
+	$(CC) $(CFLAGS) -o $@ $^
 
-$(APPROX): src/linearApproximationsMatrix.o
-	$(CC) $(CFLAGS) -o $@ $<
+$(APPROX): src/linearApproximationsMatrix.o src/structures.o
+	$(CC) $(CFLAGS) -o $@ $^
 
 $(TEST): tests/main.o tests/structures_tests.o src/structures.o
 	$(CC) $(CFLAGS) $(UNITFLAGS) $^ -o $@

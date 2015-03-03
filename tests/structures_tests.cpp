@@ -19,6 +19,13 @@
 
 #include "structures_tests.h"
 
+void StructuresTests::testXor() {
+    CPPUNIT_ASSERT_EQUAL(Key(0b1110101101).bitsXor(), 1) ;
+    CPPUNIT_ASSERT_EQUAL(Key(0b11100101100100).bitsXor(), 1) ;
+    CPPUNIT_ASSERT_EQUAL(Key(0b11101101101).bitsXor(), 0) ;
+    CPPUNIT_ASSERT_EQUAL(Key(0b111001011010100).bitsXor(), 0) ;
+}
+
 void StructuresTests::testAddition() {
     Key k(7) ;        // 0...00111
     Block b(12) ;   // 0...01100
@@ -141,6 +148,8 @@ void StructuresTests::testEncryptDecrypt() {
 
 CppUnit::Test* StructuresTests::suite() {
     CppUnit::TestSuite *suite = new CppUnit::TestSuite("StructuresTests");
+    suite->addTest(new CppUnit::TestCaller<StructuresTests>("StructuresTests_testXor",
+                &StructuresTests::testXor));
     suite->addTest(new CppUnit::TestCaller<StructuresTests>("StructuresTests_testAddition",
                 &StructuresTests::testAddition));
     suite->addTest(new CppUnit::TestCaller<StructuresTests>("StructuresTests_testSimpleSubstitution",
