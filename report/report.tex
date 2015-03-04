@@ -16,6 +16,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{enumerate}[label=\textbf{\arabic*})]
+    \setlength\itemsep{2em}
     \item See source code.
 
     \item
@@ -46,6 +47,20 @@
     Then the ouples $(a, b)$ with probability $p_{a, b} = \frac{1}{2} \pm \frac{6}{16}$ are:
 
     $(1, 5), (3, 15), (4, 8), (7, 7), (9, 4), (10, 11), (13, 12)$
+
+    \item
+    Notice that we have $x \cdot (a \oplus b) = (x \oplus a)\cdot(x \oplus b)$
+    Take $(a, b) = (13, 12) = (1101_2, 1100_2)$. We have $p_{13, 12} = 2$.
+
+    Let $A = 1101\underbrace{0\dots0}_{28}$ and $B = 1100\underbrace{0\dots0}_{28}$.
+
+    Fix $K_0, K_1$. Take $m \hookleftarrow \cU\left(\zo^{32}\right)$
+
+    \begin{align*}
+        \prob{A\cdot m = P(B)\cdot x_1} &= \prob{A\cdot m = P(B) \cdot (P(S(m \oplus K_0))\oplus K_1)} && \text{by definition}\\
+            &= \prob{A\cdot m = B \cdot (S(m \oplus K_0)\oplus K'_1)} && \text{since }P(x) \cdot P(y) = x \cdot y\\
+            &= \prob{A\cdot m = (B \cdot S(m \oplus K_0))\oplus (B \cdot K'_1)} && \text{by distributivity}\\
+    \end{align*}
 \end{enumerate}
 
 \end{document}

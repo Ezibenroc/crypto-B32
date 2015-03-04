@@ -53,9 +53,10 @@ void linearApproximationMatrix(int nbElt) {
 }
 
 // Question 4
-void experimentalCheck(uint32_t a=4, uint32_t b=8) {
+void experimentalCheck(uint32_t a=1, uint32_t b=5) {
     Block A(a<<28);
     Block B(b<<28);
+    B.permutation() ;
     int nbMess = 16000 ;
     for(int i = 0 ; i < 10 ; i++) {
         Block K0(rand()) ;
@@ -76,14 +77,19 @@ void experimentalCheck(uint32_t a=4, uint32_t b=8) {
 }
 
 int main(int argc, char *argv[]) {
-    if(argc != 2) {
-        std::cerr << "Syntax:" << argv[0] << " <size of the S box>" << std::endl ;
+    srand(time(NULL)) ;
+    // if(argc != 2) {
+    //     std::cerr << "Syntax:" << argv[0] << " <size of the S box>" << std::endl ;
+    //     return 1 ;
+    // }
+    // int S = atoi(argv[1]) ;
+    // int nbElt = 1<<S ;
+    // linearApproximationMatrix(nbElt) ;
+    if(argc != 3) {
+        std::cerr << "Syntax:" << argv[0] << " <a> <b>" << std::endl ;
         return 1 ;
     }
-    int S = atoi(argv[1]) ;
-    int nbElt = 1<<S ;
-    srand(time(NULL)) ;
-    // linearApproximationMatrix(nbElt) ;
-    experimentalCheck() ;
+    int a = atoi(argv[1]), b = atoi(argv[2]) ;
+    experimentalCheck(a, b) ;
     return 0 ;
 }
