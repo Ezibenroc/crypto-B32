@@ -11,7 +11,10 @@
 Block::Block(uint32_t b) : bits(b) {
 }
 
-uint32_t Block::getBits(void) {
+Block::Block(const Block &other) : bits(other.getBits()) {
+}
+
+uint32_t Block::getBits(void) const {
     return this->bits ;
 }
 

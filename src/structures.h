@@ -16,7 +16,8 @@ class Block {
         uint32_t bits ;
     public:
         Block(uint32_t b) ;
-        uint32_t getBits(void) ;
+        Block(const Block &other) ;
+        uint32_t getBits(void) const ;
         // Return the XOR of the bits of the block.
         int bitsXor(void) ;
         // Bitwise AND

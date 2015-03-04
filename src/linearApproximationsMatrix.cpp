@@ -3,6 +3,8 @@
 #include <vector>
 #include <cassert>
 #include <cmath>
+#include <stdlib.h>
+#include <time.h>
 
 #include "structures.h"
 
@@ -50,6 +52,29 @@ void linearApproximationMatrix(int nbElt) {
     std::cout << "\\]\n" ;
 }
 
+// Question 4
+void experimentalCheck(uint32_t a=4, uint32_t b=8) {
+    Block A(a<<28);
+    Block B(b<<28);
+    int nbMess = 16000 ;
+    for(int i = 0 ; i < 10 ; i++) {
+        Block K0(rand()) ;
+        Block K1(rand()) ;
+        int nbEqual = 0 ;
+        for(int j = 0 ; j < nbMess ; j++) {
+            Block m(rand()) ;
+            Block x(m) ;
+            x.addition(K0) ;
+            x.turn(K1) ;
+            m.product(A) ;
+            x.product(B) ;
+            if(m.bitsXor() == x.bitsXor())
+                nbEqual ++ ;
+        }
+        std::cout << nbEqual << "/" << nbMess << std::endl ;
+    }
+}
+
 int main(int argc, char *argv[]) {
     if(argc != 2) {
         std::cerr << "Syntax:" << argv[0] << " <size of the S box>" << std::endl ;
@@ -57,6 +82,8 @@ int main(int argc, char *argv[]) {
     }
     int S = atoi(argv[1]) ;
     int nbElt = 1<<S ;
-    linearApproximationMatrix(nbElt) ;
+    srand(time(NULL)) ;
+    // linearApproximationMatrix(nbElt) ;
+    experimentalCheck() ;
     return 0 ;
 }
