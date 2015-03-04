@@ -30,6 +30,11 @@ int Key::bitsXor(void) {
 Block::Block(uint32_t b) : Key(b) {
 }
 
+// Bitwise AND
+void Block::product(Key key) {
+    this->bits&=key.getBits() ;
+}
+
 void Block::addition(Key key) {
     this->bits^=key.getBits() ;
 }

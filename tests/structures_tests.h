@@ -5,6 +5,7 @@
 class StructuresTests : public CppUnit::TestFixture {
     private:
         void testXor() ;
+        void testProduct() ;
         void testAddition() ;
         void testSimpleSubstitution() ;
         void testWholeSubstitution() ;

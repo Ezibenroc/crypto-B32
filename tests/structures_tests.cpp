@@ -26,6 +26,15 @@ void StructuresTests::testXor() {
     CPPUNIT_ASSERT_EQUAL(Key(0b111001011010100).bitsXor(), 0) ;
 }
 
+void StructuresTests::testProduct() {
+    Key k(7) ;        // 0...00111
+    Block b(12) ;   // 0...01100
+    b.product(k) ;         // 0...00100
+    CPPUNIT_ASSERT_EQUAL((uint32_t)4, b.getBits()) ;
+    b.product(k) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)4, b.getBits()) ;
+}
+
 void StructuresTests::testAddition() {
     Key k(7) ;        // 0...00111
     Block b(12) ;   // 0...01100
@@ -150,6 +159,8 @@ CppUnit::Test* StructuresTests::suite() {
     CppUnit::TestSuite *suite = new CppUnit::TestSuite("StructuresTests");
     suite->addTest(new CppUnit::TestCaller<StructuresTests>("StructuresTests_testXor",
                 &StructuresTests::testXor));
+    suite->addTest(new CppUnit::TestCaller<StructuresTests>("StructuresTests_testProduct",
+                &StructuresTests::testProduct));
     suite->addTest(new CppUnit::TestCaller<StructuresTests>("StructuresTests_testAddition",
                 &StructuresTests::testAddition));
     suite->addTest(new CppUnit::TestCaller<StructuresTests>("StructuresTests_testSimpleSubstitution",
