@@ -57,10 +57,26 @@
     Fix $K_0, K_1$. Take $m \hookleftarrow \cU\left(\zo^{32}\right)$
 
     \begin{align*}
-        \prob{A\cdot m = P(B)\cdot x_1} &= \prob{A\cdot m = P(B) \cdot (P(S(m \oplus K_0))\oplus K_1)} && \text{by definition}\\
-            &= \prob{A\cdot m = B \cdot (S(m \oplus K_0)\oplus K'_1)} && \text{since }P(x) \cdot P(y) = x \cdot y\\
-            &= \prob{A\cdot m = (B \cdot S(m \oplus K_0))\oplus (B \cdot K'_1)} && \text{by distributivity}\\
+        \prob{A\cdot m = P(B)\cdot x_1} &= \prob{A\cdot (x_0 \oplus K_0) = P(B) \cdot (P(S(x_0))\oplus K_1)} && \text{by definition}\\
+            &= \prob{(A\cdot x_0) \oplus (A \cdot K_0) = (P(B) \cdot P(S(x_0)) \oplus (P(B) \cdot K_1)} && \text{by distributivity}\\
     \end{align*}
+
+    \begin{itemize}
+        \item If $A \cdot K_0 = P(B) \cdot K_1$, then:
+        \begin{align*}
+            \prob{A\cdot m = P(B)\cdot x_1} &= \prob{A\cdot x_0 = P(B) \cdot P(S(x_0)}\\
+                &= \prob{A\cdot x_0 = B \cdot S(x_0)} && \text{since } P(x) \cdot P(y) = x \cdot y\\
+                &= \frac{2}{16} && \text{by question 3}
+        \end{align*}
+        \item If $A \cdot K_0 \neq P(B) \cdot K_1$, then:
+        \begin{align*}
+            \prob{A\cdot m = P(B)\cdot x_1} &= 1-\prob{A\cdot x_0 = P(B) \cdot P(S(x_0)}\\
+                &= 1-\prob{A\cdot x_0 = B \cdot S(x_0)} && \text{since } P(x) \cdot P(y) = x \cdot y\\
+                &= \frac{14}{16} && \text{by question 3}
+        \end{align*}
+    \end{itemize}
+    Thus:
+    \[\prob{A\cdot m = P(B)\cdot x_1} = \frac{1}{2} \pm \frac{6}{16}\]
 \end{enumerate}
 
 \end{document}
