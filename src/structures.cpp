@@ -8,14 +8,14 @@
 #include <cassert>
 #include "structures.h"
 
-Key::Key(uint32_t b) : bits(b) {
+Block::Block(uint32_t b) : bits(b) {
 }
 
-uint32_t Key::getBits(void) {
+uint32_t Block::getBits(void) {
     return this->bits ;
 }
 
-int Key::bitsXor(void) {
+int Block::bitsXor(void) {
     int ret ;
     int x = this->getBits() ;
     ret = x&1 ;
@@ -27,16 +27,13 @@ int Key::bitsXor(void) {
     return ret ;
 }
 
-Block::Block(uint32_t b) : Key(b) {
-}
-
 // Bitwise AND
-void Block::product(Key key) {
-    this->bits&=key.getBits() ;
+void Block::product(Block other) {
+    this->bits&=other.getBits() ;
 }
 
-void Block::addition(Key key) {
-    this->bits^=key.getBits() ;
+void Block::addition(Block other) {
+    this->bits^=other.getBits() ;
 }
 
 void Block::substitution(int position, std::vector<int> subst) {
@@ -75,13 +72,13 @@ void Block::permutation(int shift) {
     this->bits = (this->bits & mask) | newValue ;
 }
 
-void Block::turn(Key k) {
+void Block::turn(Block k) {
     this->substitution() ;
     this->permutation() ;
     this->addition(k) ;
 }
 
-void Block::encrypt(std::vector<Key> keys) {
+void Block::encrypt(std::vector<Block> keys) {
     assert(keys.size() > 0) ;
     this->addition(keys[0]) ;
     for(unsigned int i = 1 ; i < keys.size() ; i++) {
@@ -89,11 +86,11 @@ void Block::encrypt(std::vector<Key> keys) {
     }
 }
 
-void Block::encrypt(Key k0, Key k1, Key k2) {
+void Block::encrypt(Block k0, Block k1, Block k2) {
     this->encrypt({k0, k1, k2}) ;
 }
 
-void Block::reverseTurn(Key k) {
+void Block::reverseTurn(Block k) {
     this->addition(k) ;
     this->permutation(-DEFAULT_SHIFT) ;
     std::vector<int>subst = buildReverseSubstitution(DEFAULT_SUBST) ;
@@ -101,7 +98,7 @@ void Block::reverseTurn(Key k) {
 }
 
 
-void Block::decrypt(std::vector<Key> keys) {
+void Block::decrypt(std::vector<Block> keys) {
     assert(keys.size() > 0) ;
     for(unsigned int i = (unsigned int)(keys.size()-1) ; i > 0 ; i--) {
         this->reverseTurn(keys[i]) ;
@@ -109,6 +106,6 @@ void Block::decrypt(std::vector<Key> keys) {
     this->addition(keys[0]) ;
 }
 
-void Block::decrypt(Key k0, Key k1, Key k2) {
+void Block::decrypt(Block k0, Block k1, Block k2) {
     this->decrypt({k0, k1, k2}) ;
 }

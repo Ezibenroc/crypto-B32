@@ -20,14 +20,14 @@
 #include "structures_tests.h"
 
 void StructuresTests::testXor() {
-    CPPUNIT_ASSERT_EQUAL(Key(0b1110101101).bitsXor(), 1) ;
-    CPPUNIT_ASSERT_EQUAL(Key(0b11100101100100).bitsXor(), 1) ;
-    CPPUNIT_ASSERT_EQUAL(Key(0b11101101101).bitsXor(), 0) ;
-    CPPUNIT_ASSERT_EQUAL(Key(0b111001011010100).bitsXor(), 0) ;
+    CPPUNIT_ASSERT_EQUAL(Block(0b1110101101).bitsXor(), 1) ;
+    CPPUNIT_ASSERT_EQUAL(Block(0b11100101100100).bitsXor(), 1) ;
+    CPPUNIT_ASSERT_EQUAL(Block(0b11101101101).bitsXor(), 0) ;
+    CPPUNIT_ASSERT_EQUAL(Block(0b111001011010100).bitsXor(), 0) ;
 }
 
 void StructuresTests::testProduct() {
-    Key k(7) ;        // 0...00111
+    Block k(7) ;        // 0...00111
     Block b(12) ;   // 0...01100
     b.product(k) ;         // 0...00100
     CPPUNIT_ASSERT_EQUAL((uint32_t)4, b.getBits()) ;
@@ -36,7 +36,7 @@ void StructuresTests::testProduct() {
 }
 
 void StructuresTests::testAddition() {
-    Key k(7) ;        // 0...00111
+    Block k(7) ;        // 0...00111
     Block b(12) ;   // 0...01100
     b.addition(k) ;         // 0...01011
     CPPUNIT_ASSERT_EQUAL((uint32_t)11, b.getBits()) ;
@@ -102,28 +102,28 @@ void StructuresTests::testPermutation() {
 
 void StructuresTests::testTurn() {
     Block b(0) ;
-    b.turn(Key(42)) ;
-    b.reverseTurn(Key(42)) ;
+    b.turn(Block(42)) ;
+    b.reverseTurn(Block(42)) ;
     CPPUNIT_ASSERT_EQUAL((uint32_t)0, b.getBits()) ;
     b = Block((5<<29) + (7<<15) + 15) ;
-    b.turn(Key((31<<12)+18)) ;
-    b.reverseTurn(Key((31<<12)+18)) ;
+    b.turn(Block((31<<12)+18)) ;
+    b.reverseTurn(Block((31<<12)+18)) ;
     CPPUNIT_ASSERT_EQUAL((uint32_t)((5<<29) + (7<<15) + 15), b.getBits()) ;
-    b.addition(Key(42)) ;
-    b.turn(Key(-1)) ;
-    b.turn(Key(0)) ;
-    b.reverseTurn(Key(0)) ;
-    b.reverseTurn(Key(-1)) ;
-    b.addition(Key(42)) ;
+    b.addition(Block(42)) ;
+    b.turn(Block(-1)) ;
+    b.turn(Block(0)) ;
+    b.reverseTurn(Block(0)) ;
+    b.reverseTurn(Block(-1)) ;
+    b.addition(Block(42)) ;
     CPPUNIT_ASSERT_EQUAL((uint32_t)((5<<29) + (7<<15) + 15), b.getBits()) ;
 }
 
 void StructuresTests::testEncryption() {
     Block b(0) ;
     b.encrypt(
-        Key(0b10000000000000000000000000000001),
-        Key(0b11111111111111111111111111111111),
-        Key(0b01111111111111111111111111111110)
+        Block(0b10000000000000000000000000000001),
+        Block(0b11111111111111111111111111111111),
+        Block(0b01111111111111111111111111111110)
     ) ;
     CPPUNIT_ASSERT_EQUAL((uint32_t)0b00111001011001100110011001100110, b.getBits()) ;
 }
@@ -131,9 +131,9 @@ void StructuresTests::testEncryption() {
 void StructuresTests::testDecryption() {
     Block b(0b00111001011001100110011001100110) ;
     b.decrypt(
-        Key(0b10000000000000000000000000000001),
-        Key(0b11111111111111111111111111111111),
-        Key(0b01111111111111111111111111111110)
+        Block(0b10000000000000000000000000000001),
+        Block(0b11111111111111111111111111111111),
+        Block(0b01111111111111111111111111111110)
     ) ;
     CPPUNIT_ASSERT_EQUAL((uint32_t)0, b.getBits()) ;
 }
@@ -143,9 +143,9 @@ void StructuresTests::testEncryptDecrypt() {
     for(int i = 0 ; i < 10000 ; i++) {
         Block text((uint32_t)rand()) ;
         Block copy(text) ;
-        Key k1((uint32_t)rand()) ;
-        Key k2((uint32_t)rand()) ;
-        Key k3((uint32_t)rand()) ;
+        Block k1((uint32_t)rand()) ;
+        Block k2((uint32_t)rand()) ;
+        Block k3((uint32_t)rand()) ;
         text.encrypt(k1, k2, k3) ;
         if(text.getBits() == copy.getBits()){
             std::cerr << "WARNING: cipher is the same than plain text." << std::endl ;

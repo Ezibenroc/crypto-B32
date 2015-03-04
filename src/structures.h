@@ -11,23 +11,18 @@
 // List of plaintexts and ciphertexts:
 // http://perso.ens-lyon.fr/adeline.langlois/webpage/Crypto2014/clairs_chiffres.txt
 
-class Key {
-    protected:
+class Block {
+    private:
         uint32_t bits ;
     public:
-        Key(uint32_t b) ;
-        uint32_t getBits(void) ;
-        // Return the XOR of the bits of the key.
-        int bitsXor(void) ;
-};
-
-class Block: public Key {
-    public:
         Block(uint32_t b) ;
+        uint32_t getBits(void) ;
+        // Return the XOR of the bits of the block.
+        int bitsXor(void) ;
         // Bitwise AND
-        void product(Key key) ;
-        // Add the key to the bits (bitwise XOR)
-        void addition(Key key) ;
+        void product(Block other) ;
+        // Bitwise XOR)
+        void addition(Block other) ;
         // Substitute the block of size 4 of the given position (according to the substitution subst).
         void substitution(int position, std::vector<int> subst = DEFAULT_SUBST) ;
         // Perform a substitution of the bits, by blocks of size 4 (according to the substitution subst).
@@ -36,18 +31,18 @@ class Block: public Key {
         void permutation(int shift = DEFAULT_SHIFT) ;
         // Perform a substitution and a permutation (with default values).
         // Then, add the key.
-        void turn(Key k) ;
+        void turn(Block k) ;
         // Perform the encryption with a vector of keys.
-        void encrypt(std::vector<Key> keys) ;
+        void encrypt(std::vector<Block> keys) ;
         // Perform the encryption with 3 keys.
-        void encrypt(Key k0, Key k1, Key k2) ;
+        void encrypt(Block k0, Block k1, Block k2) ;
         // Add the key.
         // Then perform a permutation and a substitution (with default values).
-        void reverseTurn(Key k) ;
+        void reverseTurn(Block k) ;
         // Perform the decryption with a vector of keys.
-        void decrypt(std::vector<Key> keys) ;
+        void decrypt(std::vector<Block> keys) ;
         // Perform the decryption with 3 keys.
-        void decrypt(Key k0, Key k1, Key k2) ;
+        void decrypt(Block k0, Block k1, Block k2) ;
 };
 
 std::vector<int> buildReverseSubstitution(std::vector<int> subst) ;
