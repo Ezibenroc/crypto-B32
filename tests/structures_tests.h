@@ -4,6 +4,7 @@
 #include <cppunit/TestFixture.h>
 class StructuresTests : public CppUnit::TestFixture {
     private:
+        void testConstructor() ;
         void testXor() ;
         void testProduct() ;
         void testAddition() ;

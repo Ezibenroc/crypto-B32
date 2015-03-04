@@ -19,6 +19,17 @@
 
 #include "structures_tests.h"
 
+void StructuresTests::testConstructor() {
+    srand((unsigned int)time(NULL)) ;
+    for(int i = 0 ; i < 10 ; i++) {
+        uint32_t r = rand() ;
+        Block b(r) ;
+        CPPUNIT_ASSERT_EQUAL(b.getBits(), r) ;
+        Block c(r) ;
+        CPPUNIT_ASSERT_EQUAL(c.getBits(), r) ;
+    }
+}
+
 void StructuresTests::testXor() {
     CPPUNIT_ASSERT_EQUAL(Block(0b1110101101).bitsXor(), 1) ;
     CPPUNIT_ASSERT_EQUAL(Block(0b11100101100100).bitsXor(), 1) ;
@@ -157,6 +168,8 @@ void StructuresTests::testEncryptDecrypt() {
 
 CppUnit::Test* StructuresTests::suite() {
     CppUnit::TestSuite *suite = new CppUnit::TestSuite("StructuresTests");
+    suite->addTest(new CppUnit::TestCaller<StructuresTests>("StructuresTests_testConstructor",
+                &StructuresTests::testConstructor));
     suite->addTest(new CppUnit::TestCaller<StructuresTests>("StructuresTests_testXor",
                 &StructuresTests::testXor));
     suite->addTest(new CppUnit::TestCaller<StructuresTests>("StructuresTests_testProduct",
