@@ -5,32 +5,11 @@
 
 #include "structures.h"
 
-#define abs(x) ((x)<0 ? -(x) : (x))
-
-int op(int x) {
-    int ret ;
-    ret = x&1 ;
-    x >>= 1 ;
-    for(int i = 0 ; i < 31 ; i++) {
-        ret ^= x&1 ;
-        x >>= 1 ;
-    }
-    return ret ;
-}
-
-void check(void) {
-    assert(op(0b1110101101)) ;
-    assert(op(0b11100101100100)) ;
-    assert(!op(0b11101101101)) ;
-    assert(!op(0b111001011010100)) ;
-}
-
 int main(int argc, char *argv[]) {
     if(argc != 2) {
         std::cerr << "Syntax:" << argv[0] << " <size of the S box>" << std::endl ;
         return 1 ;
     }
-    std::vector<int> substitution = {7, 3, 6, 1, 13, 9, 10, 11, 2, 12, 0, 4, 5, 15, 8, 14} ;
     std::vector<std::pair<int,int>> goodKeys ;
     int S = atoi(argv[1]) ;
     int nbElt = 1<<S ;
