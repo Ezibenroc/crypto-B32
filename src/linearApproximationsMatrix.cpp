@@ -43,10 +43,17 @@ int main(int argc, char *argv[]) {
         std::cout << a << " & " ;
         for(int b = 0 ; b < nbElt ; b++) {
             int nbKey = 0 ;
-            for(int c = 0 ; c < nbElt ; c++)
-                if(op(a&c) == op(b&substitution[c])) {
+            for(int c = 0 ; c < nbElt ; c++) {
+                Block blockA(a) ;
+                Block blockB(b) ;
+                Block key(c) ;
+                blockA.product(key) ;
+                key.substitution() ;
+                blockB.product(key) ;
+                if(blockA.bitsXor() == blockB.bitsXor()) {
                     nbKey ++ ;
                 }
+            }
             std::cout << nbKey ;
             double proba = ((double)nbKey)/16 ;
             if(abs(proba - 0.5) > 0.3) {
