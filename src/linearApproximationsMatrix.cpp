@@ -2,17 +2,13 @@
 #include <fstream>
 #include <vector>
 #include <cassert>
+#include <cmath>
 
 #include "structures.h"
 
-int main(int argc, char *argv[]) {
-    if(argc != 2) {
-        std::cerr << "Syntax:" << argv[0] << " <size of the S box>" << std::endl ;
-        return 1 ;
-    }
+// Questions 2 and 3
+void linearApproximationMatrix(int nbElt) {
     std::vector<std::pair<int,int>> goodKeys ;
-    int S = atoi(argv[1]) ;
-    int nbElt = 1<<S ;
     std::cout << "\\[\n\\bordermatrix{\n& " ;
     for(int b = 0 ; b < nbElt-1 ; b++) {
         std::cout << b << " & " ;
@@ -35,7 +31,7 @@ int main(int argc, char *argv[]) {
             }
             std::cout << nbKey ;
             double proba = ((double)nbKey)/16 ;
-            if(abs(proba - 0.5) > 0.3) {
+            if(std::abs(proba - 0.5) > 0.3) {
                 // std::cout << nbKey ;
                 goodKeys.push_back(std::pair<int,int>(a, b)) ;
             }
@@ -52,5 +48,15 @@ int main(int argc, char *argv[]) {
         std::cout << ", (" << goodKeys[i].first << ", " << goodKeys[i].second << ")" ;
     }
     std::cout << "\\]\n" ;
+}
+
+int main(int argc, char *argv[]) {
+    if(argc != 2) {
+        std::cerr << "Syntax:" << argv[0] << " <size of the S box>" << std::endl ;
+        return 1 ;
+    }
+    int S = atoi(argv[1]) ;
+    int nbElt = 1<<S ;
+    linearApproximationMatrix(nbElt) ;
     return 0 ;
 }
