@@ -4,7 +4,8 @@
 #include <cassert>
 #include <cmath>
 #include <stdlib.h>
-#include <time.h>
+#include <stdint.h>
+#include <random>
 
 #include "structures.h"
 
@@ -54,16 +55,19 @@ void linearApproximationMatrix(int nbElt) {
 
 // Question 4
 void experimentalCheck(uint32_t a=1, uint32_t b=5) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<unsigned int> dis(0, 4294967295);
     Block A(a<<28);
     Block B(b<<28);
     B.permutation() ;
     int nbMess = 16000 ;
     for(int i = 0 ; i < 10 ; i++) {
-        Block K0(rand()) ;
-        Block K1(rand()) ;
+        Block K0(dis(gen)) ;
+        Block K1(dis(gen)) ;
         int nbEqual = 0 ;
         for(int j = 0 ; j < nbMess ; j++) {
-            Block m(rand()) ;
+            Block m(dis(gen)) ;
             Block x(m) ;
             x.addition(K0) ;
             x.turn(K1) ;
@@ -77,7 +81,6 @@ void experimentalCheck(uint32_t a=1, uint32_t b=5) {
 }
 
 int main(int argc, char *argv[]) {
-    srand(time(NULL)) ;
     // if(argc != 2) {
     //     std::cerr << "Syntax:" << argv[0] << " <size of the S box>" << std::endl ;
     //     return 1 ;
