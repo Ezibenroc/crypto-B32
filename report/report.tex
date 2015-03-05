@@ -50,9 +50,10 @@
 
     \item
     Notice that we have $x \cdot (a \oplus b) = (x \oplus a)\cdot(x \oplus b)$
-    Take $(a, b) = (13, 12) = (1101_2, 1100_2)$. We have $p_{13, 12} = 2$.
 
-    Let $A = 1101\underbrace{0\dots0}_{28}$ and $B = 1100\underbrace{0\dots0}_{28}$.
+    Take $(a, b)$ in the above list. We have $p_{a, b} = \frac{1}{2} \pm \frac{6}{16}$.
+
+    Let $A = a\underbrace{0\dots0}_{28}$ and $B = b\underbrace{0\dots0}_{28}$.
 
     Fix $K_0, K_1$. Take $m \hookleftarrow \cU\left(\zo^{32}\right)$
 
@@ -66,19 +67,19 @@
         \begin{align*}
             \prob{A\cdot m = P(B)\cdot x_1} &= \prob{A\cdot x_0 = P(B) \cdot P(S(x_0)}\\
                 &= \prob{A\cdot x_0 = B \cdot S(x_0)} && \text{since } P(x) \cdot P(y) = x \cdot y\\
-                &= \frac{2}{16} && \text{by question 3}
+                &= \frac{1}{2} \pm \frac{6}{16} && \text{by question 3}
         \end{align*}
         \item If $A \cdot K_0 \neq P(B) \cdot K_1$, then:
         \begin{align*}
             \prob{A\cdot m = P(B)\cdot x_1} &= 1-\prob{A\cdot x_0 = P(B) \cdot P(S(x_0)}\\
                 &= 1-\prob{A\cdot x_0 = B \cdot S(x_0)} && \text{since } P(x) \cdot P(y) = x \cdot y\\
-                &= \frac{14}{16} && \text{by question 3}
+                &= \frac{1}{2} \pm \frac{6}{16} && \text{by question 3}
         \end{align*}
     \end{itemize}
     Thus:
     \[\prob{A\cdot m = P(B)\cdot x_1} = \frac{1}{2} \pm \frac{6}{16}\]
 
-    We check that the experimental distribution is close to the properties $\frac{2}{16} = 0.125$ or $\frac{14}{16} = 0.875$.
+    We check that the experimental distribution is close to the probabilities $\frac{2}{16} = 0.125$ or $\frac{14}{16} = 0.875$.
 
     For each couple $(a, b)$ repeat $10$ times:
     \begin{itemize}
