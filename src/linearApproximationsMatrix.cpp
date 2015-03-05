@@ -57,11 +57,11 @@ void linearApproximationMatrix(int nbElt) {
 void experimentalCheck(uint32_t a=1, uint32_t b=5) {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<unsigned int> dis(0, 4294967295);
+    std::uniform_int_distribution<unsigned int> dis(0, UINT32_MAX);
     Block A(a<<28);
     Block B(b<<28);
     B.permutation() ;
-    int nbMess = 16000 ;
+    int nbMess = 160000 ;
     for(int i = 0 ; i < 10 ; i++) {
         Block K0(dis(gen)) ;
         Block K1(dis(gen)) ;
