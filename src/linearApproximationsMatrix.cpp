@@ -61,7 +61,7 @@ void experimentalCheck(uint32_t a=1, uint32_t b=5) {
     Block A(a<<28);
     Block B(b<<28);
     B.permutation() ;
-    int nbMess = 160000 ;
+    int nbMess = 1000000 ;
     for(int i = 0 ; i < 10 ; i++) {
         Block K0(dis(gen)) ;
         Block K1(dis(gen)) ;
@@ -76,8 +76,9 @@ void experimentalCheck(uint32_t a=1, uint32_t b=5) {
             if(m.bitsXor() == x.bitsXor())
                 nbEqual ++ ;
         }
-        std::cout << nbEqual << "/" << nbMess << std::endl ;
+        std::cout << "$" << (double)nbEqual/(double)nbMess << "$ & ";//std::endl ;
     }
+    std::cout << std::endl ;
 }
 
 int main(int argc, char *argv[]) {
