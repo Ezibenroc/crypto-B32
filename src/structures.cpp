@@ -78,14 +78,6 @@ void Block::substitution(std::vector<int> subst) {
     }
 }
 
-std::vector<int> buildReverseSubstitution(std::vector<int> subst) {
-    std::vector<int> rev(subst.size(), -1) ;
-    for(unsigned int i = 0 ; i < subst.size() ; i++) {
-        rev[subst[i]] = i ;
-    }
-    return rev ;
-}
-
 void Block::permutation(int shift) {
     if(shift < 0)
         shift = 32+shift ;
@@ -120,7 +112,6 @@ void Block::encrypt(Block k0, Block k1, Block k2) {
 void Block::reverseTurn(Block k) {
     this->addition(k) ;
     this->permutation(-DEFAULT_SHIFT) ;
-    // std::vector<int>subst = buildReverseSubstitution(DEFAULT_SUBST) ;
     this->substitution(REVERSE_DEFAULT_SUBST) ;
 }
 
@@ -150,4 +141,13 @@ void Block::generateSubKeys(Block *K0, Block *K1, Block *K2,\
     this->generateSubKeys(K0, K0Subst) ;
     this->generateSubKeys(K1, K1Subst) ;
     this->generateSubKeys(K2, K2Subst) ;
+}
+
+
+std::vector<int> buildReverseSubstitution(std::vector<int> subst) {
+    std::vector<int> rev(subst.size(), -1) ;
+    for(unsigned int i = 0 ; i < subst.size() ; i++) {
+        rev[subst[i]] = i ;
+    }
+    return rev ;
 }
