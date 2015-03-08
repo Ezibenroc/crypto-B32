@@ -70,7 +70,7 @@ void Block::substitution(std::vector<int> subst) {
 }
 
 std::vector<int> buildReverseSubstitution(std::vector<int> subst) {
-    std::vector<int> rev(subst.size()) ;
+    std::vector<int> rev(subst.size(), -1) ;
     for(unsigned int i = 0 ; i < subst.size() ; i++) {
         rev[subst[i]] = i ;
     }

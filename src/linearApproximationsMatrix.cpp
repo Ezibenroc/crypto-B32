@@ -113,13 +113,13 @@ int guessKeyBox(int blockIndex, uint32_t a=4, uint32_t b=8) {
 }
 
 // Questions 7-8
-Block guessKey() {
+void guessK2() {
     Block K(0) ;
     for(int i = 0 ; i < 8 ; i++) {
         K.setBox(i, guessKeyBox(i)) ;
     }
     K.permutation() ;
-    return K ;
+    std::cout << "K2 = " << K.getBits() << std::endl ;
 }
 
 int main(int argc, char *argv[]) {
@@ -140,6 +140,6 @@ int main(int argc, char *argv[]) {
     // int a = atoi(argv[1]), b = atoi(argv[2]) ;
     // experimentalCheck(a, b) ;
 
-    std::cout << guessKey().getBits() << std::endl ;
+    guessK2() ;
     return 0 ;
 }
