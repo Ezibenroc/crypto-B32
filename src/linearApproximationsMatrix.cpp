@@ -8,6 +8,7 @@
 #include <random>
 
 #include "structures.h"
+#include "clear_ciffers.h"
 
 // Questions 2 and 3
 void linearApproximationMatrix(int nbElt) {
