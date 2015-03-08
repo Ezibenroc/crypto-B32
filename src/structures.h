@@ -8,6 +8,13 @@
 #define REVERSE_DEFAULT_SUBST {10, 3, 8, 1, 11, 12, 2, 0, 14, 5, 6, 7, 9, 4, 15, 13}
 #define DEFAULT_SHIFT 2
 
+#define DEFAULT_K0_SUBST {17, 31, 0, 0, 18, 7, 20, 18, 8, 1, 27, 27, 2, 4, 11,\
+    20, 25, 13, 17, 10, 24, 9, 29, 15, 21, 18, 28, 20, 4, 5, 24, 15}
+#define DEFAULT_K1_SUBST {15, 2, 5, 0, 13, 31, 5, 10, 18, 2, 3, 14, 14, 0, 11,\
+    1, 20, 15, 14, 27, 6, 11, 19, 3, 6, 20, 14, 2, 28, 11, 5, 8}
+#define DEFAULT_K2_SUBST {4, 24, 23, 12, 22, 21, 31, 15, 29, 1, 0, 26, 17, 24,\
+    16, 5, 31, 0, 20, 21, 26, 30, 15, 11, 16, 23, 18, 30, 30, 19, 28, 23}
+
 
 // List of plaintexts and ciphertexts:
 // http://perso.ens-lyon.fr/adeline.langlois/webpage/Crypto2014/clairs_chiffres.txt
@@ -50,6 +57,12 @@ class Block {
         void decrypt(std::vector<Block> keys) ;
         // Perform the decryption with 3 keys.
         void decrypt(Block k0, Block k1, Block k2) ;
+        // Generate the keys K0, K1, K2 with the key K and the substitution vectors.
+        void generateSubKeys(Block *K0, Block *K1, Block *K2,\
+            std::vector<int> K0Subst = DEFAULT_K0_SUBST,\
+            std::vector<int> K1Subst = DEFAULT_K1_SUBST,\
+            std::vector<int> K2Subst = DEFAULT_K2_SUBST\
+        );
 };
 
 std::vector<int> buildReverseSubstitution(std::vector<int> subst) ;
