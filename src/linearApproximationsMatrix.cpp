@@ -128,6 +128,18 @@ void guessKey() {
     // Block K ;
 }
 
+bool checkSolution(Block K0, Block K1, Block K2) {
+    unsigned int i ;
+    for(i = 0 ; i < Plaintext.size() ; i++) {
+        Block m(Plaintext[i]) ;
+        Block c(Ciphertext[i]) ;
+        m.encrypt(K0, K1, K2) ;
+        if(m.getBits() != c.getBits())
+            break ;
+    }
+    return i == Plaintext.size() ;
+}
+
 void bruteForce() { // too long
     uint32_t k = 0 ;
     Block K0, K1, K2 ;
@@ -136,19 +148,11 @@ void bruteForce() { // too long
             std::cout << k << "/" << UINT32_MAX << std::endl ;
         Block K(k) ;
         K.generateSubKeys(&K0, &K1, &K2) ;
-        bool flag = true ;
-        for(unsigned int i = 0 ; i < Plaintext.size() && flag ; i++) {
-            Block m(Plaintext[i]) ;
-            Block c(Ciphertext[i]) ;
-            m.encrypt(K0, K1, K2) ;
-            if(m.getBits() != c.getBits())
-                flag = false ;
-        }
-        if(flag)
+        if(checkSolution(K0, K1, K2))
             break ;
         k++ ;
     }
-    std::cout << "Find keys by brute force:" << std::endl ;
+    std::cout << "Found keys by brute force:" << std::endl ;
     std::cout << "K  = " << k << std::endl ;
     std::cout << "K0 = " << K0.getBits() << std::endl ;
     std::cout << "K1 = " << K1.getBits() << std::endl ;
