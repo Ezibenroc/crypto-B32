@@ -122,6 +122,39 @@ void guessK2() {
     std::cout << "K2 = " << K.getBits() << std::endl ;
 }
 
+void guessKey() {
+    // std::vector<int> K2RevSubst = buildReverseSubstitution(K2Subst) ;
+    // Block K2 = guessK2() ;
+    // Block K ;
+}
+
+void bruteForce() { // too long
+    uint32_t k = 0 ;
+    Block K0, K1, K2 ;
+    while(1) {
+        if(k%10000 == 0)
+            std::cout << k << "/" << UINT32_MAX << std::endl ;
+        Block K(k) ;
+        K.generateSubKeys(&K0, &K1, &K2) ;
+        bool flag = true ;
+        for(unsigned int i = 0 ; i < Plaintext.size() && flag ; i++) {
+            Block m(Plaintext[i]) ;
+            Block c(Ciphertext[i]) ;
+            m.encrypt(K0, K1, K2) ;
+            if(m.getBits() != c.getBits())
+                flag = false ;
+        }
+        if(flag)
+            break ;
+        k++ ;
+    }
+    std::cout << "Find keys by brute force:" << std::endl ;
+    std::cout << "K  = " << k << std::endl ;
+    std::cout << "K0 = " << K0.getBits() << std::endl ;
+    std::cout << "K1 = " << K1.getBits() << std::endl ;
+    std::cout << "K2 = " << K2.getBits() << std::endl ;
+}
+
 int main(int argc, char *argv[]) {
     // Question 3
     // if(argc != 2) {
@@ -140,6 +173,6 @@ int main(int argc, char *argv[]) {
     // int a = atoi(argv[1]), b = atoi(argv[2]) ;
     // experimentalCheck(a, b) ;
 
-    guessK2() ;
+    bruteForce() ;
     return 0 ;
 }

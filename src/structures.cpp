@@ -8,6 +8,9 @@
 #include <cassert>
 #include "structures.h"
 
+Block::Block(void) : bits(0) {
+}
+
 Block::Block(uint32_t b) : bits(b) {
 }
 

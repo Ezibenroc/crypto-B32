@@ -23,6 +23,7 @@ class Block {
     private:
         uint32_t bits ;
     public:
+        Block(void) ;
         Block(uint32_t b) ;
         Block(const Block &other) ;
         Block(const std::vector<int> b) ;
