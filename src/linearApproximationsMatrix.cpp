@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <random>
+#include <algorithm>    // std::min_element, std::max_element
 
 #include "structures.h"
 #include "clear_ciffers.h"
@@ -80,6 +81,34 @@ void experimentalCheck(uint32_t a=1, uint32_t b=5) {
         std::cout << "$" << (double)nbEqual/(double)nbMess << "$ & ";//std::endl ;
     }
     std::cout << std::endl ;
+}
+
+int guessKeyBlock(int blockIndex, uint32_t a, uint32_t b) {
+    std::vector<int> keyCount(16, 0) ;
+    Block A(a<<blockIndex) ;
+    Block B(b<<blockIndex) ;
+    B.permutation(2) ;
+    for(unsigned int i = 0 ; i < Plaintext.size() ; i++) {
+        Block M(Plaintext[i]) ;
+        Block C(Ciphertext[i]) ;
+        C.permutation(-2) ;
+        for(uint32_t k = 0 ; k < 16 ; k++) {
+            Block K(k) ;
+            K.addition(C) ;
+            K.substitution(REVERSE_DEFAULT_SUBST) ;
+            Block Mcopy(M) ;
+            Mcopy.product(A) ;
+            K.product(B) ;
+            if(Mcopy.bitsXor() == K.bitsXor())
+                keyCount[k] ++ ;
+        }
+    }
+    int kmin = std::min_element(keyCount.begin(), keyCount.end()) - keyCount.begin();
+    int kmax = std::max_element(keyCount.begin(), keyCount.end()) - keyCount.begin();
+    if(std::abs((double)Plaintext.size()/2 - keyCount[kmin]) > std::abs((double)Plaintext.size()/2 - keyCount[kmax]))
+        return kmin ;
+    else
+        return kmax ;
 }
 
 int main(int argc, char *argv[]) {
