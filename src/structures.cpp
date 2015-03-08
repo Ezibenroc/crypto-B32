@@ -48,9 +48,9 @@ void Block::addition(Block other) {
     this->bits^=other.getBits() ;
 }
 
-void Block::setBox(int boxID, int box) {
-    uint32_t mask = 15<<(boxID*4) ; // 0...011110...0
-    box <<=(boxID*4) ;
+void Block::setBox(int boxID, int box, int boxSize) {
+    uint32_t mask = ((1<<boxSize)-1)<<(boxID*boxSize) ; // 0...011110...0
+    box <<=(boxID*boxSize) ;
     this->bits = (this->bits & (~mask)) | box ;
 }
 
