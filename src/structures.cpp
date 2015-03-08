@@ -48,6 +48,12 @@ void Block::addition(Block other) {
     this->bits^=other.getBits() ;
 }
 
+void Block::setBox(int boxID, int box) {
+    uint32_t mask = 15<<(boxID*4) ; // 0...011110...0
+    box <<=(boxID*4) ;
+    this->bits = (this->bits & (~mask)) | box ;
+}
+
 void Block::substitution(int position, std::vector<int> subst) {
     uint32_t mask = 15<<(position*4) ; // 0...011110...0
     uint32_t newValue = mask & this->bits ; // i-th block

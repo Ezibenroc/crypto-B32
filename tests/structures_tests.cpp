@@ -60,6 +60,16 @@ void StructuresTests::testAddition() {
     CPPUNIT_ASSERT_EQUAL((uint32_t)12, b.getBits()) ;
 }
 
+void StructuresTests::testSetBox() {
+    Block k(7) ;        // 0...00111
+    k.setBox(0, 8) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)8, k.getBits()) ;
+    k.setBox(6, 13) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)218103816, k.getBits()) ;
+    k.setBox(3, 3) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)218116104, k.getBits()) ;
+}
+
 void StructuresTests::testSimpleSubstitution() {
     Block b(7) ; // 0...00111
     std::vector<int> subst = {3, 15, 10, 5, 12, 0, 7, 4, 2, 6, 13, 11, 14, 1, 9, 8} ;
@@ -181,6 +191,8 @@ CppUnit::Test* StructuresTests::suite() {
                 &StructuresTests::testProduct));
     suite->addTest(new CppUnit::TestCaller<StructuresTests>("StructuresTests_testAddition",
                 &StructuresTests::testAddition));
+    suite->addTest(new CppUnit::TestCaller<StructuresTests>("StructuresTests_testSetBox",
+                &StructuresTests::testSetBox));
     suite->addTest(new CppUnit::TestCaller<StructuresTests>("StructuresTests_testSimpleSubstitution",
                 &StructuresTests::testSimpleSubstitution));
     suite->addTest(new CppUnit::TestCaller<StructuresTests>("StructuresTests_testWholeSubstitution",

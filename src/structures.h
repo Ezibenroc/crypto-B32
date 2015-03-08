@@ -26,6 +26,8 @@ class Block {
         void product(Block other) ;
         // Bitwise XOR)
         void addition(Block other) ;
+        // Set the bits of the box.
+        void setBox(int boxID, int box) ;
         // Substitute the block of size 4 of the given position (according to the substitution subst).
         void substitution(int position, std::vector<int> subst = DEFAULT_SUBST) ;
         // Perform a substitution of the bits, by blocks of size 4 (according to the substitution subst).
