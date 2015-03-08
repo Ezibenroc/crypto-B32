@@ -13,6 +13,7 @@
 #include "clear_ciffers.h"
 
 // Questions 2 and 3
+// Display the linear approximation matrix.
 void linearApproximationMatrix(int nbElt=16) {
     std::vector<std::pair<int,int>> goodKeys ;
     std::cout << "\\[\n\\bordermatrix{\n& " ;
@@ -57,6 +58,7 @@ void linearApproximationMatrix(int nbElt=16) {
 }
 
 // Question 4
+// Check experimentaly that Prob(a.m = P(b).c) is in {1/2-1/8, 1/2+1/8}
 void experimentalCheck(uint32_t a=1, uint32_t b=5) {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -86,11 +88,13 @@ void experimentalCheck(uint32_t a=1, uint32_t b=5) {
 }
 
 // Questions 7-8
+// Guess the block of given index of the key K2.
 int guessKeyBox(int blockIndex, uint32_t a=4, uint32_t b=8) {
     std::vector<int> keyCount(16, 0) ;
     Block A(a<<(blockIndex*4)) ;
     Block B(b<<(blockIndex*4)) ;
     B.permutation(2) ;
+    // Compute the distribution of each key over all the couples plaintext/ciphertext
     for(unsigned int i = 0 ; i < Plaintext.size() ; i++) {
         Block M(Plaintext[i]) ;
         Block C(Ciphertext[i]) ;
@@ -106,6 +110,7 @@ int guessKeyBox(int blockIndex, uint32_t a=4, uint32_t b=8) {
                 keyCount[k] ++ ;
         }
     }
+    // The key with the distribution the farstest from 1/2 is probably the key that we are looking for.
     int kmin = std::min_element(keyCount.begin(), keyCount.end()) - keyCount.begin();
     int kmax = std::max_element(keyCount.begin(), keyCount.end()) - keyCount.begin();
     if(std::abs((double)Plaintext.size()/2 - keyCount[kmin]) > std::abs((double)Plaintext.size()/2 - keyCount[kmax]))
@@ -115,6 +120,7 @@ int guessKeyBox(int blockIndex, uint32_t a=4, uint32_t b=8) {
 }
 
 // Questions 7-8
+// Guess the key K2 block by block.
 Block guessK2() {
     Block K(0) ;
     for(int i = 0 ; i < 8 ; i++) {
@@ -124,6 +130,7 @@ Block guessK2() {
     return K ;
 }
 
+// Check if the given keys are the keys which crypted the table Plaintext.
 bool checkSolution(Block K0, Block K1, Block K2) {
     unsigned int i ;
     for(i = 0 ; i < Plaintext.size() ; i++) {
@@ -136,6 +143,9 @@ bool checkSolution(Block K0, Block K1, Block K2) {
     return i == Plaintext.size() ;
 }
 
+// Not in the subject
+// Retrieve the keys with a brute force attack.
+// Too long, not fully tested.
 void bruteForce() { // too long
     uint32_t k = 0 ;
     Block K0, K1, K2 ;
@@ -155,16 +165,20 @@ void bruteForce() { // too long
     std::cout << "K2 = " << K2.getBits() << std::endl ;
 }
 
+// Question 9
+// Find the keys with the method of the actives boxes.
 Block guessKey() {
     int bit ;
     std::vector<int> K2Subst = DEFAULT_K2_SUBST ;
     Block K2 = guessK2() ;
     Block K ;
     std::vector<bool> knownBit(32, false) ;
+    // Build the key K with the key K2
     for(int i = 0 ; i < 32 ; i++) {
         K.setBox(K2Subst[i], K2.getBox(i, 1), 1) ;
         knownBit[K2Subst[i]] = true ;
     }
+    // Bits of K that we do not know
     std::vector<int> unknownPositions ;
     for(int i = 0 ; i < 32 ; i++) {
         if(!knownBit[i])
@@ -172,6 +186,7 @@ Block guessKey() {
     }
     std::vector<int> bitsToGuess(unknownPositions.size(), 0) ;
     Block K0, K1, K2bis ;
+    // Brute force attack on the unknown bits
     K.generateSubKeys(&K0, &K1, &K2bis) ;
     assert(K2bis.getBits() == K2.getBits()) ;
     while(!checkSolution(K0, K1, K2)) {
