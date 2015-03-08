@@ -17,6 +17,7 @@ class Block {
     public:
         Block(uint32_t b) ;
         Block(const Block &other) ;
+        Block(const std::vector<int> b) ;
         uint32_t getBits(void) const ;
         // Return the XOR of the bits of the block.
         int bitsXor(void) ;

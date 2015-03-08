@@ -28,6 +28,11 @@ void StructuresTests::testConstructor() {
         Block c(r) ;
         CPPUNIT_ASSERT_EQUAL(c.getBits(), r) ;
     }
+    Block b(std::vector<int>({
+        0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0,\
+        0, 1, 0, 0, 1, 0, 0, 0
+    })) ;
+    CPPUNIT_ASSERT_EQUAL(b.getBits(), (uint32_t)0b01101001100000101011111001001000) ;
 }
 
 void StructuresTests::testXor() {

@@ -14,6 +14,15 @@ Block::Block(uint32_t b) : bits(b) {
 Block::Block(const Block &other) : bits(other.getBits()) {
 }
 
+Block::Block(const std::vector<int> b) {
+    this->bits = 0 ;
+    assert(b.size() == 32) ;
+    for(unsigned int i = 0 ; i < b.size () ; i++) {
+        this->bits *= 2 ;
+        this->bits += b[i] ;
+    }
+}
+
 uint32_t Block::getBits(void) const {
     return this->bits ;
 }
