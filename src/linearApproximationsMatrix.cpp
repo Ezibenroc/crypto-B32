@@ -83,6 +83,7 @@ void experimentalCheck(uint32_t a=1, uint32_t b=5) {
     std::cout << std::endl ;
 }
 
+// Questions 7-8
 int guessKeyBox(int blockIndex, uint32_t a=4, uint32_t b=8) {
     std::vector<int> keyCount(16, 0) ;
     Block A(a<<(blockIndex*4)) ;
@@ -111,6 +112,7 @@ int guessKeyBox(int blockIndex, uint32_t a=4, uint32_t b=8) {
         return kmax ;
 }
 
+// Questions 7-8
 Block guessKey() {
     Block K(0) ;
     for(int i = 0 ; i < 8 ; i++) {
