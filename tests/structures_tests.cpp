@@ -79,6 +79,12 @@ void StructuresTests::testGetSetBox() {
     k.setBox(14, 1, 1) ;
     CPPUNIT_ASSERT_EQUAL((uint32_t)16390, k.getBits()) ;
     CPPUNIT_ASSERT_EQUAL(1, k.getBox(14, 1)) ;
+    k.setBox(31, 1, 1) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)2147500038, k.getBits()) ;
+    CPPUNIT_ASSERT_EQUAL(1, k.getBox(31, 1)) ;
+    k.setBox(31, 0, 1) ;
+    CPPUNIT_ASSERT_EQUAL((uint32_t)16390, k.getBits()) ;
+    CPPUNIT_ASSERT_EQUAL(0, k.getBox(31, 1)) ;
 }
 
 void StructuresTests::testSimpleSubstitution() {

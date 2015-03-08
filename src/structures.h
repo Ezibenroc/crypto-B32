@@ -8,12 +8,16 @@
 #define REVERSE_DEFAULT_SUBST {10, 3, 8, 1, 11, 12, 2, 0, 14, 5, 6, 7, 9, 4, 15, 13}
 #define DEFAULT_SHIFT 2
 
-#define DEFAULT_K0_SUBST {17, 31, 0, 0, 18, 7, 20, 18, 8, 1, 27, 27, 2, 4, 11,\
-    20, 25, 13, 17, 10, 24, 9, 29, 15, 21, 18, 28, 20, 4, 5, 24, 15}
-#define DEFAULT_K1_SUBST {15, 2, 5, 0, 13, 31, 5, 10, 18, 2, 3, 14, 14, 0, 11,\
-    1, 20, 15, 14, 27, 6, 11, 19, 3, 6, 20, 14, 2, 28, 11, 5, 8}
-#define DEFAULT_K2_SUBST {4, 24, 23, 12, 22, 21, 31, 15, 29, 1, 0, 26, 17, 24,\
-    16, 5, 31, 0, 20, 21, 26, 30, 15, 11, 16, 23, 18, 30, 30, 19, 28, 23}
+/*
+    Remark: the tabs of the subject were in big endian convention.
+    They are translated here in little endian convention.
+*/
+#define DEFAULT_K0_SUBST {15, 24, 5, 4, 20, 28, 18, 21, 15, 29, 9, 24, 10, 17, 13,\
+    25, 20, 11, 4, 2, 27, 27, 1, 8, 18, 20, 7, 18, 0, 0, 31, 17}
+#define DEFAULT_K1_SUBST {8, 5, 11, 28, 2, 14, 20, 6, 3, 19, 11, 6, 27, 14, 15, 20,\
+    1, 11, 0, 14, 14, 3, 2, 18, 10, 5, 31, 13, 0, 5, 2, 15}
+#define DEFAULT_K2_SUBST {2, 28, 19, 30, 30, 18, 23, 16, 11, 15, 30, 26, 21, 20, 0,\
+    31, 5, 16, 24, 17, 26, 0, 1, 29, 15, 31, 21, 22, 12, 23, 24, 43}
 
 
 // List of plaintexts and ciphertexts:

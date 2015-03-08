@@ -113,19 +113,13 @@ int guessKeyBox(int blockIndex, uint32_t a=4, uint32_t b=8) {
 }
 
 // Questions 7-8
-void guessK2() {
+Block guessK2() {
     Block K(0) ;
     for(int i = 0 ; i < 8 ; i++) {
         K.setBox(i, guessKeyBox(i)) ;
     }
     K.permutation() ;
-    std::cout << "K2 = " << K.getBits() << std::endl ;
-}
-
-void guessKey() {
-    // std::vector<int> K2RevSubst = buildReverseSubstitution(K2Subst) ;
-    // Block K2 = guessK2() ;
-    // Block K ;
+    return K ;
 }
 
 bool checkSolution(Block K0, Block K1, Block K2) {
@@ -159,6 +153,40 @@ void bruteForce() { // too long
     std::cout << "K2 = " << K2.getBits() << std::endl ;
 }
 
+Block guessKey() {
+    int bit ;
+    std::vector<int> K2Subst = DEFAULT_K2_SUBST ;
+    Block K2 = guessK2() ;
+    Block K ;
+    std::vector<bool> knownBit(32, false) ;
+    for(int i = 0 ; i < 32 ; i++) {
+        K.setBox(K2Subst[i], K2.getBox(i, 1), 1) ;
+        knownBit[K2Subst[i]] = true ;
+    }
+    std::vector<int> unknownPositions ;
+    for(int i = 0 ; i < 32 ; i++) {
+        if(!knownBit[i])
+            unknownPositions.push_back(i) ;
+    }
+    std::vector<int> bitsToGuess(unknownPositions.size(), 0) ;
+    Block K0, K1, K2bis ;
+    K.generateSubKeys(&K0, &K1, &K2bis) ;
+    assert(K2bis.getBits() == K2.getBits()) ;
+    while(!checkSolution(K0, K1, K2)) {
+        int i = bitsToGuess.size() - 1 ;
+        while(bitsToGuess[i] == 1) {
+            bitsToGuess[i] = 0 ;
+            K.setBox(unknownPositions[i], 0, 1) ;
+            i-- ;
+        }
+        bitsToGuess[i] = 1 ;
+        K.setBox(unknownPositions[i], 1, 1) ;
+        K.generateSubKeys(&K0, &K1, &K2bis) ;
+        assert(K2bis.getBits() == K2.getBits()) ;
+    }
+    return K ;
+}
+
 int main(int argc, char *argv[]) {
     // Question 3
     // if(argc != 2) {
@@ -177,6 +205,12 @@ int main(int argc, char *argv[]) {
     // int a = atoi(argv[1]), b = atoi(argv[2]) ;
     // experimentalCheck(a, b) ;
 
-    bruteForce() ;
+    Block K = guessKey() ;
+    Block K0, K1, K2 ;
+    K.generateSubKeys(&K0, &K1, &K2) ;
+    std::cout << "K  = " << K.getBits() << std::endl ;
+    std::cout << "K0 = " << K0.getBits() << std::endl ;
+    std::cout << "K1 = " << K1.getBits() << std::endl ;
+    std::cout << "K2 = " << K2.getBits() << std::endl ;
     return 0 ;
 }
