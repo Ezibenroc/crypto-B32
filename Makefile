@@ -21,7 +21,7 @@ crypt: src/main.o src/structures.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 linearApproximationMatrix: src/linearApproximationsMatrix.o src/structures.o
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -lboost_program_options -o $@ $^
 
 test: tests/main.o tests/structures_tests.o src/structures.o
 	$(CC) $(CFLAGS) $(UNITFLAGS) $^ -o $@

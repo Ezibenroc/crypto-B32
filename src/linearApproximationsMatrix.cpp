@@ -1,3 +1,4 @@
+#include <boost/program_options.hpp>
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -12,7 +13,7 @@
 #include "clear_ciffers.h"
 
 // Questions 2 and 3
-void linearApproximationMatrix(int nbElt) {
+void linearApproximationMatrix(int nbElt=16) {
     std::vector<std::pair<int,int>> goodKeys ;
     std::cout << "\\[\n\\bordermatrix{\n& " ;
     for(int b = 0 ; b < nbElt-1 ; b++) {
@@ -63,7 +64,8 @@ void experimentalCheck(uint32_t a=1, uint32_t b=5) {
     Block A(a<<28);
     Block B(b<<28);
     B.permutation() ;
-    int nbMess = 1000000 ;
+    // int nbMess = 1000000 ;
+    int nbMess = 100000 ;
     for(int i = 0 ; i < 10 ; i++) {
         Block K0(dis(gen)) ;
         Block K1(dis(gen)) ;
@@ -78,9 +80,9 @@ void experimentalCheck(uint32_t a=1, uint32_t b=5) {
             if(m.bitsXor() == x.bitsXor())
                 nbEqual ++ ;
         }
-        std::cout << "$" << (double)nbEqual/(double)nbMess << "$ & ";//std::endl ;
+        std::cout << "& $" << (double)nbEqual/(double)nbMess << "$ ";//std::endl ;
     }
-    std::cout << std::endl ;
+    std::cout << "\\\\" << std::endl ;
 }
 
 // Questions 7-8
@@ -187,30 +189,53 @@ Block guessKey() {
     return K ;
 }
 
+namespace po = boost::program_options;
+
 int main(int argc, char *argv[]) {
-    // Question 3
-    // if(argc != 2) {
-    //     std::cerr << "Syntax:" << argv[0] << " <size of the S box>" << std::endl ;
-    //     return 1 ;
-    // }
-    // int S = atoi(argv[1]) ;
-    // int nbElt = 1<<S ;
-    // linearApproximationMatrix(nbElt) ;
+    po::options_description description("MyTool Usage");
 
-    // Question 4
-    // if(argc != 3) {
-    //     std::cerr << "Syntax:" << argv[0] << " <a> <b>" << std::endl ;
-    //     return 1 ;
-    // }
-    // int a = atoi(argv[1]), b = atoi(argv[2]) ;
-    // experimentalCheck(a, b) ;
+    description.add_options()
+        ("help,h", "produce help message")
+        ("linearApproximationMatrix", "display the linear approximation matrix")
+        ("experimentalCheck", "display the experimental results")
+        ("bruteForce", "retrieve the keys by a brute force attack (very long)")
+        ("activeBox", "retrieve the keys by active boxes attack") ;
+    po::variables_map vm;
+    po::store(po::command_line_parser(argc, argv).options(description).run(), vm);
+    po::notify(vm);
 
-    Block K = guessKey() ;
-    Block K0, K1, K2 ;
-    K.generateSubKeys(&K0, &K1, &K2) ;
-    std::cout << "K  = " << K.getBits() << std::endl ;
-    std::cout << "K0 = " << K0.getBits() << std::endl ;
-    std::cout << "K1 = " << K1.getBits() << std::endl ;
-    std::cout << "K2 = " << K2.getBits() << std::endl ;
+    if(vm.count("help")){
+        std::cout << description;
+        return 0 ;
+    }
+
+    if(vm.count("linearApproximationMatrix")) {
+        linearApproximationMatrix() ;
+    }
+
+    if(vm.count("experimentalCheck")) {
+        std::vector<std::pair<int, int>> couples = {std::pair<int, int>(1, 5),\
+            std::pair<int, int>(3, 15), std::pair<int, int>(4, 8), std::pair<int, int>(7, 7),\
+            std::pair<int, int>(9, 4), std::pair<int, int>(10, 11), std::pair<int, int>(13, 12)} ;
+        for(unsigned i = 0 ; i < couples.size() ; i++) {
+            std::cout << "$(" << couples[i].first << ", " << couples[i].second << ")$ " ;
+            experimentalCheck(couples[i].first, couples[i].second) ;
+        }
+    }
+
+    if(vm.count("bruteForce")) {
+        bruteForce() ;
+    }
+
+    if(vm.count("activeBox")) {
+        Block K = guessKey() ;
+        Block K0, K1, K2 ;
+        K.generateSubKeys(&K0, &K1, &K2) ;
+        std::cout << "K  = " << K.getBits() << std::endl ;
+        std::cout << "K0 = " << K0.getBits() << std::endl ;
+        std::cout << "K1 = " << K1.getBits() << std::endl ;
+        std::cout << "K2 = " << K2.getBits() << std::endl ;
+    }
+
     return 0 ;
 }
