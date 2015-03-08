@@ -59,6 +59,7 @@ class Block {
         // Perform the decryption with 3 keys.
         void decrypt(Block k0, Block k1, Block k2) ;
         // Generate the keys K0, K1, K2 with the key K and the substitution vectors.
+        void generateSubKeys(Block *K, std::vector<int> Subst);
         void generateSubKeys(Block *K0, Block *K1, Block *K2,\
             std::vector<int> K0Subst = DEFAULT_K0_SUBST,\
             std::vector<int> K1Subst = DEFAULT_K1_SUBST,\

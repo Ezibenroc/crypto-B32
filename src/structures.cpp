@@ -137,19 +137,17 @@ void Block::decrypt(Block k0, Block k1, Block k2) {
     this->decrypt({k0, k1, k2}) ;
 }
 
+void Block::generateSubKeys(Block *K, std::vector<int> Subst) {
+    for(int i = 0 ; i < 32 ; i++) {
+        if(Subst[i] >= 0) {
+            K->setBox(i, this->getBox(Subst[i], 1) , 1) ;
+        }
+    }
+}
+
 void Block::generateSubKeys(Block *K0, Block *K1, Block *K2,\
     std::vector<int> K0Subst, std::vector<int> K1Subst, std::vector<int> K2Subst){
-    int bit ;
-    K0->setBox(0, 0, 32) ;
-    K1->setBox(0, 0, 32) ;
-    K2->setBox(0, 0, 32) ;
-    for(int i = 0 ; i < 32 ; i++) {
-        bit = this->getBox(i, 1) ;
-        if(K0Subst[i] >= 0)
-            K0->setBox(K0Subst[i], bit, 1) ;
-        if(K1Subst[i] >= 0)
-            K1->setBox(K1Subst[i], bit, 1) ;
-        if(K2Subst[i] >= 0)
-            K2->setBox(K2Subst[i], bit, 1) ;
-    }
+    this->generateSubKeys(K0, K0Subst) ;
+    this->generateSubKeys(K1, K1Subst) ;
+    this->generateSubKeys(K2, K2Subst) ;
 }
