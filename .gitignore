@@ -1,13 +1,8 @@
 *.o
-pbmtopxm
 *.tar.gz
 *.pdf
-*.pgm
-*.ppm
-*.pnm
-*.pbm
 test
-linearApproximationMatrix
+main
 *.log
 *.aux
 *.out

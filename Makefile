@@ -30,4 +30,4 @@ OUT=${INDEXES:.tex=.pdf}
 		@(cd ${dir $<} && $(MAKE))
 
 clean :
-	rm -f *.o src/*.o tests/*.o report/report.pdf report/report.log report/report.aux report/report.out crypt test linearApproximationMatrix
+	rm -f *.o src/*.o tests/*.o report/report.pdf report/report.log report/report.aux report/report.out main test
