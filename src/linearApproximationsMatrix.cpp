@@ -85,15 +85,15 @@ void experimentalCheck(uint32_t a=1, uint32_t b=5) {
 
 int guessKeyBox(int blockIndex, uint32_t a=4, uint32_t b=8) {
     std::vector<int> keyCount(16, 0) ;
-    Block A(a<<blockIndex) ;
-    Block B(b<<blockIndex) ;
+    Block A(a<<(blockIndex*4)) ;
+    Block B(b<<(blockIndex*4)) ;
     B.permutation(2) ;
     for(unsigned int i = 0 ; i < Plaintext.size() ; i++) {
         Block M(Plaintext[i]) ;
         Block C(Ciphertext[i]) ;
         C.permutation(-2) ;
         for(uint32_t k = 0 ; k < 16 ; k++) {
-            Block K(k) ;
+            Block K(k<<(blockIndex*4)) ;
             K.addition(C) ;
             K.substitution(REVERSE_DEFAULT_SUBST) ;
             Block Mcopy(M) ;
