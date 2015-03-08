@@ -83,7 +83,7 @@ void experimentalCheck(uint32_t a=1, uint32_t b=5) {
     std::cout << std::endl ;
 }
 
-int guessKeyBlock(int blockIndex, uint32_t a, uint32_t b) {
+int guessKeyBox(int blockIndex, uint32_t a=4, uint32_t b=8) {
     std::vector<int> keyCount(16, 0) ;
     Block A(a<<blockIndex) ;
     Block B(b<<blockIndex) ;
@@ -111,7 +111,17 @@ int guessKeyBlock(int blockIndex, uint32_t a, uint32_t b) {
         return kmax ;
 }
 
+Block guessKey() {
+    Block K(0) ;
+    for(int i = 0 ; i < 8 ; i++) {
+        K.setBox(i, guessKeyBox(i)) ;
+    }
+    K.permutation() ;
+    return K ;
+}
+
 int main(int argc, char *argv[]) {
+    // Question 3
     // if(argc != 2) {
     //     std::cerr << "Syntax:" << argv[0] << " <size of the S box>" << std::endl ;
     //     return 1 ;
@@ -119,11 +129,15 @@ int main(int argc, char *argv[]) {
     // int S = atoi(argv[1]) ;
     // int nbElt = 1<<S ;
     // linearApproximationMatrix(nbElt) ;
-    if(argc != 3) {
-        std::cerr << "Syntax:" << argv[0] << " <a> <b>" << std::endl ;
-        return 1 ;
-    }
-    int a = atoi(argv[1]), b = atoi(argv[2]) ;
-    experimentalCheck(a, b) ;
+
+    // Question 4
+    // if(argc != 3) {
+    //     std::cerr << "Syntax:" << argv[0] << " <a> <b>" << std::endl ;
+    //     return 1 ;
+    // }
+    // int a = atoi(argv[1]), b = atoi(argv[2]) ;
+    // experimentalCheck(a, b) ;
+
+    std::cout << guessKey().getBits() << std::endl ;
     return 0 ;
 }
