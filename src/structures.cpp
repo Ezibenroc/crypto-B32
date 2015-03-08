@@ -48,6 +48,12 @@ void Block::addition(Block other) {
     this->bits^=other.getBits() ;
 }
 
+int Block::getBox(int boxID, int boxSize) {
+    uint32_t mask = ((1<<boxSize)-1)<<(boxID*boxSize) ; // 0...011110...0
+    uint32_t box = this->getBits()&mask ;
+    return box>>(boxID*boxSize) ;
+}
+
 void Block::setBox(int boxID, int box, int boxSize) {
     uint32_t mask = ((1<<boxSize)-1)<<(boxID*boxSize) ; // 0...011110...0
     box <<=(boxID*boxSize) ;

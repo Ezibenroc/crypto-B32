@@ -8,7 +8,7 @@ class StructuresTests : public CppUnit::TestFixture {
         void testXor() ;
         void testProduct() ;
         void testAddition() ;
-        void testSetBox() ;
+        void testGetSetBox() ;
         void testSimpleSubstitution() ;
         void testWholeSubstitution() ;
         void testPermutation() ;

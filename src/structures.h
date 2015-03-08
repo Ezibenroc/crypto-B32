@@ -26,6 +26,8 @@ class Block {
         void product(Block other) ;
         // Bitwise XOR)
         void addition(Block other) ;
+        // Get the bits of the box.
+        int getBox(int boxID, int boxSize=4) ;
         // Set the bits of the box.
         void setBox(int boxID, int box, int boxSize=4) ;
         // Substitute the block of size 4 of the given position (according to the substitution subst).
