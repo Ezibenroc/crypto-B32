@@ -192,7 +192,7 @@ Block guessKey() {
 namespace po = boost::program_options;
 
 int main(int argc, char *argv[]) {
-    po::options_description description("MyTool Usage");
+    po::options_description description("Usage");
 
     description.add_options()
         ("help,h", "produce help message")
