@@ -105,8 +105,8 @@ void Block::encrypt(Block k0, Block k1, Block k2) {
 void Block::reverseTurn(Block k) {
     this->addition(k) ;
     this->permutation(-DEFAULT_SHIFT) ;
-    std::vector<int>subst = buildReverseSubstitution(DEFAULT_SUBST) ;
-    this->substitution(subst) ;
+    // std::vector<int>subst = buildReverseSubstitution(DEFAULT_SUBST) ;
+    this->substitution(REVERSE_DEFAULT_SUBST) ;
 }
 
 

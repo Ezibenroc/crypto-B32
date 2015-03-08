@@ -5,6 +5,7 @@
 #include <vector>
 
 #define DEFAULT_SUBST {7, 3, 6, 1, 13, 9, 10, 11, 2, 12, 0, 4, 5, 15, 8, 14}
+#define REVERSE_DEFAULT_SUBST {10, 3, 8, 1, 11, 12, 2, 0, 14, 5, 6, 7, 9, 4, 15, 13}
 #define DEFAULT_SHIFT 2
 
 
