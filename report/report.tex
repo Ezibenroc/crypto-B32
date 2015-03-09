@@ -139,14 +139,32 @@
 
     \item See source code.
 
+    To retrieve the key block, we take a couple $(a, b)$ with one active box, and shift them
+    to the desired index. Call $(A, B)$ the shifted couple.
+
+    Then, for each key $k$ of $4$ bits, we compute the number of couples
+    plaintext-ciphertext $(m, c)$ such that
+    $A\cdot m = P(B) \cdot S^{-1}(P^{-1}(c\oplus k))$.
+    The key with the distribution the farthest from $\frac{1}{2}$ is probably the
+    key we are looking for.
+
     \item See source code.
 
-    We found the key:
+    We iterate the previous attack on the $8$ blocks of the whole key.
+
+    We find the key:
     \[K_2 = 2619021732\]
 
     \item See source code.
 
-    We found the keys:
+    With the previous question, we find some key $K_2$.
+
+    Since the keys bits are all taken among bits of some key $K$, we can partially
+    build $K$ and thus the keys $K_0$ and $K_1$.
+
+    To retrieve the unknown bits, we do a brute-force attack (which is feasible here).
+
+    We find the keys:
     \[\begin{cases}
         K  &= 208609208\\
         K0 &= 2377528524\\

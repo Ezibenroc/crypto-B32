@@ -110,7 +110,7 @@ int guessKeyBox(int blockIndex, uint32_t a=4, uint32_t b=8) {
                 keyCount[k] ++ ;
         }
     }
-    // The key with the distribution the farstest from 1/2 is probably the key that we are looking for.
+    // The key with the distribution the farthest from 1/2 is probably the key that we are looking for.
     int kmin = std::min_element(keyCount.begin(), keyCount.end()) - keyCount.begin();
     int kmax = std::max_element(keyCount.begin(), keyCount.end()) - keyCount.begin();
     if(std::abs((double)Plaintext.size()/2 - keyCount[kmin]) > std::abs((double)Plaintext.size()/2 - keyCount[kmax]))
