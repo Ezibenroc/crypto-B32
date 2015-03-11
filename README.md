@@ -1,3 +1,9 @@
+# About
+
+This repository is a [homerowk](TP.pdf) whose aim was to build an attack against the block cipher B32 (described by Bart Preneel and Lars Knudsen).
+
+It consists of a theoretical study (see the report) and an implementation (see the program).
+
 # Setup
 
 Compile the report:
